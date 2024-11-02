@@ -14,8 +14,8 @@ app.use(cors());
 
 //POST todo
 app.post("/todo", function (req, res){
-    const {title, description} = req.body;
-    const service = servicePostTodo(title, description);
+    const {title, description, dueDate} = req.body;
+    const service = servicePostTodo(title, description, dueDate);
 
     res.status(service.status).json({
         message: service.message
@@ -40,8 +40,8 @@ app.get("/todos", function (req, res){
 
 //PATCH todo
 app.patch("/todo", function (req, res) {
-    const {index, title, description, state} = req.body;
-    const service = servicePatchTodo(index, title, description, state);
+    const {index, title, description, dueDate, state} = req.body;
+    const service = servicePatchTodo(index, title, description, dueDate, state);
 
     res.status(service.status).json({
         message: service.message

@@ -1,7 +1,7 @@
 import fs from "fs";
 import config from "../config.js";
 
-export function repositoryPatchTodo (index, title, description, date, state) {
+export function repositoryPatchTodo (index, title, description, dueDate, date, state) {
     try {
         let data = fs.readFileSync(config.dbFilePath, "utf-8");
         data = data.trim().split("\n");
@@ -15,6 +15,10 @@ export function repositoryPatchTodo (index, title, description, date, state) {
 
                 if(description !== undefined) {
                     data.description = description
+                }
+
+                if(dueDate !== undefined) {
+                    data.dueDate = dueDate
                 }
 
                 if(date !== undefined) {
