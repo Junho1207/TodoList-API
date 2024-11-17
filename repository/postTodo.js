@@ -1,12 +1,19 @@
-import fs from "fs";
+import fs from "fs/promises";
 import config from "../config.js";
 
-export function repositoryPostTodo (index, title, description, dueDate, date, state) {
+export async function repositoryPostTodo (index, title, description, dueDate, date, state) {
     const data = JSON.stringify({index, title, description, dueDate, date, state}) + "\n";
+
     try {
-        fs.appendFileSync(config.dbFilePath, data);
-        return true;
-    } catch (err) {
-        return false;
+        await fs.appendFile(config.dbFilePath, data);
+
+        return {
+            result: true
+        };
+    }
+    catch (error) {
+        return {
+            result: false
+        };
     }
 }

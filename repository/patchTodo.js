@@ -1,9 +1,9 @@
-import fs from "fs";
+import fs from "fs/promises";
 import config from "../config.js";
 
-export function repositoryPatchTodo (index, title, description, dueDate, date, state) {
+export async function repositoryPatchTodo (index, title, description, dueDate, date, state) {
     try {
-        let data = fs.readFileSync(config.dbFilePath, "utf-8");
+        let data = await fs.readFile(config.dbFilePath, "utf-8");
         data = data.trim().split("\n");
         data = data.map(line => JSON.parse(line));
 
@@ -32,10 +32,15 @@ export function repositoryPatchTodo (index, title, description, dueDate, date, s
         });
 
         let newData = data.map(line => JSON.stringify(line)).join("\n")+ "\n";
-        fs.writeFileSync(config.dbFilePath, newData);
+        await fs.writeFile(config.dbFilePath, newData);
 
-        return true;
-    } catch (err) {
-        return false;
+        return {
+            result: true
+        };
+    }
+    catch (error) {
+        return {
+            result: false
+        };
     }
 }

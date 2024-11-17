@@ -1,13 +1,21 @@
-import fs from "fs";
+import fs from "fs/promises";
 import config from "../config.js";
 
-export function repositoryGetTodo () {
+export async function repositoryGetTodo () {
     try {
-        let data = fs.readFileSync(config.dbFilePath, "utf-8");
+        let data = await fs.readFile(config.dbFilePath, "utf-8");
         data = data.trim().split("\n");
         data = data.map(line => JSON.parse(line));
-        return data;
-    } catch (err) {
-        return false;
+
+        return {
+            result: true,
+            todos: data
+        };
+    }
+    catch (error) {
+        return {
+            result: false,
+            todos: null
+        };
     }
 }
